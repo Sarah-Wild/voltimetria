@@ -10,11 +10,10 @@ function [] = plot_data_new(show, e, first_sweep, last_sweep, x1, x2)
 %   'show' variable determines which data to plot in function:
 %   *plot_data_new.m*
 %   1 = Plotting all data of one file
-%   2 = Plotting several periods over another with signal               ***
-%   3 = Plotting several periods over another without signal            ***
-    step = 1;                                                        %  ***
-%   4 = Plotting current of each period over another
-%   5 = Plotting current of periods
+%   3 = Plotting selected sweeps (first_sweep - last_sweep)over another
+    step = 1;  
+%   4 = Plotting current of EVERY SWEEP
+%   5 = Plotting current of first_sweep, 150, 250, 350, 450 and last_sweep
     
     %% Plotting all data 
     if show == 1
@@ -28,22 +27,7 @@ function [] = plot_data_new(show, e, first_sweep, last_sweep, x1, x2)
         end
     end
     
-    %% Plotting several periods over another with signal
-    if show == 2
-            subplot(2,1,1);
-            plot(e{3}(x1:x2,first_sweep:step:last_sweep));
-                title({['Current of sweep ', num2str(first_sweep), ' - ', ...
-                        num2str(last_sweep)], ['in given range: ', ...
-                        num2str(x1), ' - ', num2str(x2)]});
-                xlabel('point of time in period'); 
-                ylabel('current [\muA]');
-            grid on;
-            subplot(2,1,2);
-            plot(e{6}(x1:x2,first_sweep:step:last_sweep));
-                xlabel('point of time in period'); ylabel('voltage');
-    end
-    
-    %% Plotting several periods over another without signal
+    %% Plotting selected sweeps (first_sweep - last_sweep)over another
     if show == 3 
             plot(e{3}(x1:x2,first_sweep:step:last_sweep));
                 title({['Current of sweep ', num2str(first_sweep), ' - ', ...
@@ -55,7 +39,7 @@ function [] = plot_data_new(show, e, first_sweep, last_sweep, x1, x2)
             
     end
     
-    %% Plotting current of each period over another
+    %% Plotting current of EVERY SWEEP
     if show == 4
             plot(e{3})
                 title('Current of each period');
@@ -64,47 +48,23 @@ function [] = plot_data_new(show, e, first_sweep, last_sweep, x1, x2)
             grid on;
     end
     
-    %% Plotting current of periods
+    %% Plotting current of first_sweep, 150, 250, 350, 450 and last_sweep
     if show == 5
-            plot(e{3}(x1:x2,first_sweep)); hold on;
-            plot(e{3}(x1:x2,first_sweep + 150)); 
-            plot(e{3}(x1:x2,first_sweep + 250)); 
-            plot(e{3}(x1:x2,first_sweep + 350)); 
-            plot(e{3}(x1:x2,first_sweep + 450));
+            plot(e{3}(x1:x2,first_sweep+20)); hold on;
+            plot(e{3}(x1:x2,150)); 
+            plot(e{3}(x1:x2,250)); 
+            plot(e{3}(x1:x2,350)); 
+            plot(e{3}(x1:x2,450));
             plot(e{3}(x1:x2,last_sweep)); 
                 legend('first sweep - sin tirar','sweep 150 - tiramos 250nano', ...
                         'sweep 250 - tiramos 500 nano','sweep 350 - tiramos 750nano', ...
                         'sweep 450 - tiramos ultima vez 1micro','last sweep');
-                title({'Current of two periods:', ... 
-                        [num2str(first_sweep), ' - ', num2str(last_sweep)]});
+                title({'Current of several periods:', ... 
+                        [num2str(first_sweep+20), ' - ', num2str(last_sweep)]});
                 xlabel('point of time in period'); 
                 ylabel('current [\muA]');
             grid on;
     end
-    
-    %% Plotting like 3 but with mean value
-    
-    
-    if show == 6
-            plot(e{3}(x1:x2,mean(first_sweep:step:last_sweep)));
-                title({['Current of sweep ', num2str(first_sweep), ' - ', ...
-                        num2str(last_sweep)], ['in given range: ', ...
-                        num2str(x1), ' - ', num2str(x2)]});
-                xlabel('point of time in period'); 
-                ylabel('current [\muA]');
-            grid on;     
-            
-x = x1-349:x2-349;
-k = 1;
-for p = first_sweep:last_sweep
-y = DATA{file,3}(x1:x2,p);
-poly = polyfit(x,y',3);
-y_new(k,x) = (polyval(poly,x));
-plot(y_new(k),'b'); hold on;
-k = k+1;
-end
-    end
-    
 
 end
 
