@@ -13,6 +13,8 @@ clc;
 % 5th column - length of one period
 % 6th column - triangular signal
 % 7th column - background set
+% 8th column - interpolated current (like 3)
+% 9th column - derivative of current
 
 %% Read Files
 %   To define which .txt files shall be read, please edit function:
@@ -44,69 +46,65 @@ clear nr;
     a = 1;                    % FROM
     b = size(DATA,1);         % UNTIL    of  MATLAB variable 'DATA'
                               % size(DATA,1)
-    
-    n = 100;                  % 100
-for file = a:b
+for nr = a:b
         
-    first_sweep = DATA{file,7}+1;   % DATA{file,7} Background +1
-    last_sweep = DATA{file,4};      % DATA{file,4} End || first_sweep+n
+    first_sweep = DATA{nr,7}+1;   % DATA{file,7} Background +1
+    last_sweep = DATA{nr,4};      % DATA{file,4} End 
     
-    x1 = 1;                         % 1             x1 - x2: time frame
-    x2 = DATA{file,5};              % DATA{file,5}            in period
+    x1 = 1;                       % 1             x1 - x2: time frame
+    x2 = DATA{nr,5};              % DATA{file,5}            in period
 
-    plot_data_new(show, DATA(file,:), ...
+    plot_data_new(show, DATA(nr,:), ...
                   first_sweep, last_sweep, ...
                   x1, x2);
 end
 
-clear show file first_sweep last_sweep x1 x2 a b n;
+clear show nr first_sweep last_sweep x1 x2 a b n;
 clc;
 
-%% Interpolar (copy pasted sergios smooth calculation)
-
-nr = 2;
-
-DATA{nr,8} = interpol(DATA(nr,:));
-
-plot(DATA{nr,8}(:,50:100:600));
-title('interpolated curves');
-
-
+%% Interpolar
+    a = 1;                    % FROM
+    b = size(DATA,1);         % UNTIL    of  MATLAB variable 'DATA'
+                              % size(DATA,1)                          
+for nr = a:b
+    DATA{nr,8} = interpol(DATA(nr,:));
+    
+%     figure('Name',DATA{nr,1});
+%     plot(DATA{nr,8}(:,50:100:600));
+%     title('interpolated curves');
+end
 
 %% Calculate Differential and find puntos de flexión (x1 y x2)
-% after that rotate
-% signal_c sería DATA(nr,8)
+% after that: rotate
+    a = 1;                    % FROM
+    b = size(DATA,1);         % UNTIL    of  MATLAB variable 'DATA'
+                              % size(DATA,1)                          
+for nr = a:b
+    DATA{nr,9} = diff(DATA{nr,8})*100;
+    x1 = 380;   % Wendepunkte, puntos de flexión                    % HACER FUNCION!!!
+    x2 = 480; 
+    
+pico_DA = DATA{nr,8}(x1:x2,:)-ones(length(x1:x2),1)* DATA{nr,8}(x1,:);
 
+    first_sweep = DATA{nr,7}+1;   % DATA{file,7} Background +1      % Sergio: 210
+    last_sweep = DATA{nr,4};      % DATA{file,4} End                % Sergio: 280
 
+    for n = first_sweep:last_sweep
+        y1 = DATA{nr,8}(x1,n);
+        y2 = DATA{nr,8}(x2,n);
 
-% signal_c_dif = diff(signal_c)*100;
-%        % von allen Sweeps Zeiten von 400 bis 600 wird der erste Betrag (von
-%        % Zeit 400) abgezogen ~nullen und vergleichen
-% %pico_DA=signal_c(x1:x2,:)-ones(length(x1:x2),1)* signal_c(x1,:);
-% 
-% figure;
-% for n=210:280
-%     
-%     l = 1;
-%     for f = 380:540
-%         if(signal_c_dif(f,n) <= 0.02 && signal_c_dif(f,n)>= -0.02)
-%            x(l) = f;
-%            l = l +1;
-%         end
-%     end
-%     x1=382;
-%     x2=535;
-%     pico_DA=signal_c(x1:x2,:)-ones(length(x1:x2),1)* signal_c(x1,:);
-%     y1=signal_c(x1,n);
-%     y2=signal_c(x2,n);
-%     m=(y2-y1)/(x2-x1);
-%     alfa=atan(m);
-%     R=[cos(alfa) -sin(alfa);sin(alfa) cos(alfa)];
-%     aux=[(1:size(pico_DA,1))' pico_DA(:,n)]*R;
-%     pico_DA(:,n)=aux(:,2);
-%     plot(pico_DA(:,n)); hold on
-%     title(num2str(n))
-%     ylim([-0.005 0.005])
-% %     waitforbuttonpress
-% end
-% 
+        m = (y2-y1)/(x2-x1);
+        alfa = atan(m);
+        R = [cos(alfa) -sin(alfa); sin(alfa) cos(alfa)];
+        aux = [(1:size(pico_DA,1))' pico_DA(:,n)]*R;
+        pico_DA(:,n) = aux(:,2);
+
+    end
+    figure('Name',DATA{nr,1});
+    plot(pico_DA);
+    title(['sweep: ', num2str(first_sweep), ' - ', num2str(last_sweep), ...
+           ' | point of time: ', num2str(x1), ' - ', num2str(x2)]);
+end
+
+clear alfa m R x1 x2 y1 y2 first_sweep last_sweep a b nr m n aux;
+clc;
