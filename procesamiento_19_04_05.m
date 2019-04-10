@@ -26,7 +26,7 @@ DATA = read_files();
 % Clear out sweeps that don't serve our evaluation.
 % E.g. electrode got pulled out of solution, etc.
 
-for nr = 1 : size(DATA,1); 
+for nr = 1 : size(DATA,1)
 DATA = clear_sweeps(DATA, nr);
 end
 
@@ -41,18 +41,18 @@ clear nr;
 %                    !!! in plot_data_new already edited to first +20 
 %                    !!! because first 20 sweeps deleted in above function
 
-    show = 3;
+    show = 4;
              % show only files: number
     a = 1;                    % FROM
     b = size(DATA,1);         % UNTIL    of  MATLAB variable 'DATA'
                               % size(DATA,1)
 for nr = a:b
         
-    first_sweep = DATA{nr,7}+1;   % DATA{file,7} Background +1
-    last_sweep = DATA{nr,4};      % DATA{file,4} End 
+    first_sweep = DATA{nr,7}+1;   % DATA{nr,7} Background +1
+    last_sweep = DATA{nr,4};      % DATA{nr,4} End 
     
-    x1 = 1;                       % 1             x1 - x2: time frame
-    x2 = DATA{nr,5};              % DATA{file,5}            in period
+    x1 = 300;                       % 1             x1 - x2: time frame
+    x2 = 600;              % DATA{nr,5}            in period
 
     plot_data_new(show, DATA(nr,:), ...
                   first_sweep, last_sweep, ...
@@ -60,6 +60,7 @@ for nr = a:b
 end
 
 clear show nr first_sweep last_sweep x1 x2 a b n;
+close all;
 clc;
 
 %% Interpolar
@@ -67,27 +68,35 @@ clc;
     b = size(DATA,1);         % UNTIL    of  MATLAB variable 'DATA'
                               % size(DATA,1)                          
 for nr = a:b
-    DATA{nr,8} = interpol(DATA(nr,:));
+    DATA{nr,8} = interpol(DATA(nr,:),3);
     
-%     figure('Name',DATA{nr,1});
-%     plot(DATA{nr,8}(:,50:100:600));
-%     title('interpolated curves');
+    figure('Name',DATA{nr,1});
+    plot(DATA{nr,8}(:,550)); % sweep 550 should show a peak
+    title('interpolated curves');
+    xlim([200 649]);
 end
 
+f = warndlg({'Watch the plotted figures of the interpolated curves.', ...
+      'If one does not show a peak delete now in Command Window: ', ...
+      'DATA(nr,:) = [] ', 'Close this Window afterwards to continue.'}, 'DELETE');
+drawnow
+waitfor(f);
 %% Calculate Differential and find puntos de flexión (x1 y x2)
 % after that: rotate
     a = 1;                    % FROM
     b = size(DATA,1);         % UNTIL    of  MATLAB variable 'DATA'
                               % size(DATA,1)                          
 for nr = a:b
-    DATA{nr,9} = diff(DATA{nr,8})*100;
-    x1 = 380;   % Wendepunkte, puntos de flexión                    % HACER FUNCION!!!
-    x2 = 480; 
+    DATA{nr,9} = diff(DATA{nr,8})*1e5;
+    DATA{nr,9} = interpol(DATA(nr,:),9);
+    [x1 x2] = calc_inflec_points(DATA{nr,9});
+%     x1 = 380;   % Wendepunkte, puntos de flexión                    % HACER FUNCION!!!
+%     x2 = 480; 
     
 pico_DA = DATA{nr,8}(x1:x2,:)-ones(length(x1:x2),1)* DATA{nr,8}(x1,:);
 
-    first_sweep = DATA{nr,7}+1;   % DATA{file,7} Background +1      % Sergio: 210
-    last_sweep = DATA{nr,4};      % DATA{file,4} End                % Sergio: 280
+    first_sweep = DATA{nr,7}+1;   % DATA{nr,7} Background +1      % Sergio: 210
+    last_sweep = DATA{nr,4};      % DATA{nr,4} End                % Sergio: 280
 
     for n = first_sweep:last_sweep
         y1 = DATA{nr,8}(x1,n);

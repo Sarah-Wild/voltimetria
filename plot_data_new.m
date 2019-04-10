@@ -29,11 +29,12 @@ function [] = plot_data_new(show, e, first_sweep, last_sweep, x1, x2)
     
     %% Plotting selected sweeps (first_sweep - last_sweep)over another
     if show == 3 
-            plot(e{3}(x1:x2,first_sweep:step:last_sweep));
+            plot(e{3}(:,first_sweep:step:last_sweep));
                 title({['Current of sweep ', num2str(first_sweep), ' - ', ...
                         num2str(last_sweep)], ['in given range: ', ...
                         num2str(x1), ' - ', num2str(x2)]});
-                xlabel('point of time in period'); 
+                xlabel('point of time in period');
+                xlim([x1 x2]);
                 ylabel('current [\muA]');
             grid on;
             
@@ -50,18 +51,19 @@ function [] = plot_data_new(show, e, first_sweep, last_sweep, x1, x2)
     
     %% Plotting current of first_sweep, 150, 250, 350, 450 and last_sweep
     if show == 5
-            plot(e{3}(x1:x2,first_sweep+20)); hold on;
-            plot(e{3}(x1:x2,150)); 
-            plot(e{3}(x1:x2,250)); 
-            plot(e{3}(x1:x2,350)); 
-            plot(e{3}(x1:x2,450));
-            plot(e{3}(x1:x2,last_sweep)); 
+            plot(e{3}(:,first_sweep+20)); hold on;
+            plot(e{3}(:,150)); 
+            plot(e{3}(:,250)); 
+            plot(e{3}(:,350)); 
+            plot(e{3}(:,450));
+            plot(e{3}(:,last_sweep)); 
                 legend('first sweep - sin tirar','sweep 150 - tiramos 250nano', ...
                         'sweep 250 - tiramos 500 nano','sweep 350 - tiramos 750nano', ...
                         'sweep 450 - tiramos ultima vez 1micro','last sweep');
                 title({'Current of several periods:', ... 
                         [num2str(first_sweep+20), ' - ', num2str(last_sweep)]});
-                xlabel('point of time in period'); 
+                xlabel('point of time in period');
+                xlim([x1 x2]);
                 ylabel('current [\muA]');
             grid on;
     end
