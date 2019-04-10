@@ -1,6 +1,6 @@
 clear all; close all;
 clc;
-
+ 
 %% Evaluating sensibility of electrodes
 %   05.04.2019
 %   Sarah Wild, Delfina Montilla
@@ -64,13 +64,42 @@ clc;
 
 %% Interpolar (copy pasted sergios smooth calculation)
 
-nr = 2;
+nr = 1;
 
 DATA{nr,8} = interpol(DATA(nr,:));
 
 plot(DATA{nr,8}(:,50:100:600));
 title('interpolated curves');
 
+%% Interpolar (Delfi/Sarah)
+
+SDATA=DATA{nr,8};
+
+DATA0=SDATA(:,(50:80));
+DATA0m=mode(DATA0,2); %moda de 0mol
+
+DATA1=SDATA(:,(150:180));
+DATA1m=mode(DATA1,2); %moda de 6.25umol
+
+DATA2=SDATA(:,(250:280));
+DATA2m=mode(DATA2,2); %moda de 12.5umol
+
+DATA3=SDATA(:,(350:380));
+DATA3m=mode(DATA3,2); %moda de 18.75umol
+
+DATA4=SDATA(:,(450:480));
+DATA4m=mode(DATA4,2); %moda de 25umol
+
+DATAf=SDATA(:,(550:580));
+DATAfm=mode(DATAf,2); %moda de final
+
+xq=0:0.5:1250;
+
+fx = interp1(DATA0m,xq);
+
+fd= diff(fx,2);
+inflec_pt = solve(fd == 0);
+double(inflec_pt)
 
 
 %% Calculate Differential and find puntos de flexión (x1 y x2)
