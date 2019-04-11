@@ -88,7 +88,7 @@ waitfor(f);
                               % size(DATA,1)   
                               
                               
-for nr = a:b
+for nr = a:1
     DATA{nr,9} = diff(DATA{nr,8})*1e5;
     DATA{nr,9} = interpol(DATA(nr,:),9);
     
@@ -96,7 +96,14 @@ for nr = a:b
     PTOS_INFL = calc_inflec_points(DATA{nr,9});
 %     x1 = 380;   % Wendepunkte, puntos de flexión                    % HACER FUNCION!!!
 %     x2 = 480; 
-    
+
+%Empece a hacer un ciclo for que vaya a rotar teniendo en cuenta cada punto
+%de inflexion
+
+for i=1:6
+    x1=PTOS_INFL(i,1);
+    x2=PTOS_INFL(i,2);
+
 pico_DA = DATA{nr,8}(x1:x2,:)-ones(length(x1:x2),1)* DATA{nr,8}(x1,:);
 
     first_sweep = DATA{nr,7}+1;   % DATA{nr,7} Background +1      % Sergio: 210
@@ -117,6 +124,8 @@ pico_DA = DATA{nr,8}(x1:x2,:)-ones(length(x1:x2),1)* DATA{nr,8}(x1,:);
     plot(pico_DA);
     title(['sweep: ', num2str(first_sweep), ' - ', num2str(last_sweep), ...
            ' | point of time: ', num2str(x1), ' - ', num2str(x2)]);
+       
+end       
 end
 
 clear alfa m R x1 x2 y1 y2 first_sweep last_sweep a b nr m n aux;

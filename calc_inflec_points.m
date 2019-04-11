@@ -23,8 +23,8 @@ data = diff(data);
  ptos_infl=zeros(6,2);
  
 %puntos de inflexion de situacion inicial
-x_1 = [350:399];
-x_2 = [450:549];
+x_1 = (350:399);
+x_2 = (450:549);
 
 poly_1 = polyfit(1:size(x_1,2), DATA0m(x_1)',3);
 poly_2 = polyfit(1:size(x_2,2), DATA0m(x_2)',3);
@@ -66,7 +66,7 @@ x2_roots = roots(poly_2)+x_2(1);
 x1 = floor(real(x1_roots(2)));
 x2 = ceil(real(x2_roots(3)));
 
-figure_1 = figure;
+figure_2 = figure;
 hold on;
 grid on;
 plot(DATA1m,'k')
@@ -95,7 +95,7 @@ x2_roots = roots(poly_2)+x_2(1);
 x1 = floor(real(x1_roots(2)));
 x2 = ceil(real(x2_roots(3)));
 
-figure_1 = figure;
+figure_3 = figure;
 hold on;
 grid on;
 plot(DATA2m,'k')
@@ -123,7 +123,7 @@ x2_roots = roots(poly_2)+x_2(1);
 x1 = floor(real(x1_roots(2)));
 x2 = ceil(real(x2_roots(3)));
 
-figure_1 = figure;
+figure_4 = figure;
 hold on;
 grid on;
 plot(DATA3m,'k')
@@ -151,7 +151,7 @@ x2_roots = roots(poly_2)+x_2(1);
 x1 = floor(real(x1_roots(2)));
 x2 = ceil(real(x2_roots(3)));
 
-figure_1 = figure;
+figure_5 = figure;
 hold on;
 grid on;
 plot(DATA4m,'k')
@@ -179,7 +179,7 @@ x2_roots = roots(poly_2)+x_2(1);
 x1 = floor(real(x1_roots(2)));
 x2 = ceil(real(x2_roots(3)));
 
-figure_1 = figure;
+figure_6 = figure;
 hold on;
 grid on;
 plot(DATAfm,'k')
