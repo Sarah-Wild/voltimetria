@@ -81,15 +81,19 @@ f = warndlg({'Watch the plotted figures of the interpolated curves.', ...
       'DATA(nr,:) = [] ', 'Close this Window afterwards to continue.'}, 'DELETE');
 drawnow
 waitfor(f);
-%% Calculate Differential and find puntos de flexión (x1 y x2)
+%% Calculate Differential and find puntos de inflexión (x1 y x2)
 % after that: rotate
     a = 1;                    % FROM
     b = size(DATA,1);         % UNTIL    of  MATLAB variable 'DATA'
-                              % size(DATA,1)                          
+                              % size(DATA,1)   
+                              
+                              
 for nr = a:b
     DATA{nr,9} = diff(DATA{nr,8})*1e5;
     DATA{nr,9} = interpol(DATA(nr,:),9);
-    [x1 x2] = calc_inflec_points(DATA{nr,9});
+    
+    
+    PTOS_INFL = calc_inflec_points(DATA{nr,9});
 %     x1 = 380;   % Wendepunkte, puntos de flexión                    % HACER FUNCION!!!
 %     x2 = 480; 
     
