@@ -17,17 +17,17 @@ x2_roots = roots(poly_2)+x_2(1);
 x1 = floor(real(x1_roots(2)));
 x2 = ceil(real(x2_roots(3)));
 
-% figure_1 = figure;
-% hold on;
-% grid on;
-% plot(data(:,t_m),'k')
-% plot(x_1,data(x_1,t_m),'b');
-% plot(x_1,y_1,'r');
-% plot(real(x1_roots),0,'go');
-% plot(x_2,data(x_2,t_m),'b');
-% plot(x_2,y_2,'r');
-% plot(real(x2_roots),0,'mo');
-% title(['x_1: ', num2str(x1), ' y x_2: ', num2str(x2)]);
+figure_1 = figure;
+hold on;
+grid on;
+plot(data(:,t_m),'k')
+plot(x_1,data(x_1,t_m),'b');
+plot(x_1,y_1,'r');
+plot(real(x1_roots),0,'go');
+plot(x_2,data(x_2,t_m),'b');
+plot(x_2,y_2,'r');
+plot(real(x2_roots),0,'mo');
+title(['x_1: ', num2str(x1), ' y x_2: ', num2str(x2)]);
 
 % SDATA=DATA{nr,8};
 % 

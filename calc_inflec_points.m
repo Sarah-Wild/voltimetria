@@ -134,6 +134,7 @@ plot(x_2,DATA3m(x_2),'b');
 plot(x_2,y_2,'r');
 plot(x2_roots,0,'mo');
 title(['x_1: ', num2str(x1), ' y x_2: ', num2str(x2)]);
+>>>>>>> b7cae27b1c04f62940452a81bfff28bc055a62db
 
 ptos_infl(4,:)=[x1,x2];
  
@@ -195,3 +196,4 @@ ptos_infl(6,:)=[x1,x2];
 
 
 end
+
