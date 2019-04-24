@@ -111,7 +111,7 @@ signal_c_dif = diff(signal_c);
 %pico_DA=signal_c(x1:x2,:)-ones(length(x1:x2),1)* signal_c(x1,:);
 
 figure;
-for n=1:50:600
+for n=50:100:600
     
 %     l = 1;
 %     for f = 380:540
@@ -121,8 +121,8 @@ for n=1:50:600
 %         end
 %     end
     
-    x1=400;
-    x2=500;
+    x1=390;
+    x2=540;
     pico_DA=signal_c(x1:x2,:)-ones(length(x1:x2),1)* signal_c(x1,:);
     y1=signal_c(x1,n);
     y2=signal_c(x2,n);
@@ -132,6 +132,7 @@ for n=1:50:600
     aux=[(1:size(pico_DA,1))' pico_DA(:,n)]*R;
     pico_DA(:,n)=aux(:,2);
     plot(pico_DA(:,n)); hold on
+    legend('50','150','250','350','450','550');
     title('Picos');
 %     waitforbuttonpress
 end
