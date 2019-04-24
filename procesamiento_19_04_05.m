@@ -68,54 +68,51 @@ nr = 1;
 
 DATA{nr,8} = interpol(DATA(nr,:));
 
-plot(DATA{nr,8}(:,50:100:600));
+plot(DATA{nr,8}(:,50:150:600));
 title('interpolated curves');
 
 %% Interpolar (Delfi/Sarah)
 
 SDATA=DATA{nr,8};
 
-DATA0=SDATA(:,(50:80));
-DATA0m=mode(DATA0,2); %moda de 0mol
+DATA0=SDATA(:,(50:100));
+DATA0m=mode(DATA0,2); %moda de 0nmol
 
-DATA1=SDATA(:,(150:180));
-DATA1m=mode(DATA1,2); %moda de 6.25umol
+DATA1=SDATA(:,(200:250));
+DATA1m=mode(DATA1,2); %moda de 100nmol
 
-DATA2=SDATA(:,(250:280));
-DATA2m=mode(DATA2,2); %moda de 12.5umol
+DATA2=SDATA(:,(350:400));
+DATA2m=mode(DATA2,2); %moda de 200nmol
 
-DATA3=SDATA(:,(350:380));
-DATA3m=mode(DATA3,2); %moda de 18.75umol
-
-DATA4=SDATA(:,(450:480));
-DATA4m=mode(DATA4,2); %moda de 25umol
-
-DATAf=SDATA(:,(550:580));
-DATAfm=mode(DATAf,2); %moda de final
-
-xq=0:0.5:1250;
-
-fx = interp1(DATA0m,xq);
-
-fd= diff(fx,2);
-inflec_pt = solve(fd == 0);
-double(inflec_pt)
+DATAf=SDATA(:,(530:580));
+DATAfm=mode(DATAf,2); %moda de 300nmol
 
 
-%% Calculate Differential and find puntos de flexión (x1 y x2)
+
+% xq=0:0.5:1250;
+% 
+% fx = interp1(DATA0m,xq);
+% 
+% fd= diff(fx,2);
+% inflec_pt = solve(fd == 0);
+% double(inflec_pt)
+
+
+%% 
+% Calculate Differential and find puntos de flexión (x1 y x2)
 % after that rotate
 % signal_c sería DATA(nr,8)
 
+signal_c=DATA{nr,8};
 
+signal_c_dif = diff(signal_c);
+       % von allen Sweeps Zeiten von 400 bis 600 wird der erste Betrag (von
+       % Zeit 400) abgezogen ~nullen und vergleichen
+%pico_DA=signal_c(x1:x2,:)-ones(length(x1:x2),1)* signal_c(x1,:);
 
-% signal_c_dif = diff(signal_c)*100;
-%        % von allen Sweeps Zeiten von 400 bis 600 wird der erste Betrag (von
-%        % Zeit 400) abgezogen ~nullen und vergleichen
-% %pico_DA=signal_c(x1:x2,:)-ones(length(x1:x2),1)* signal_c(x1,:);
-% 
-% figure;
-% for n=210:280
-%     
+figure;
+for n=1:50:600
+    
 %     l = 1;
 %     for f = 380:540
 %         if(signal_c_dif(f,n) <= 0.02 && signal_c_dif(f,n)>= -0.02)
@@ -123,19 +120,19 @@ double(inflec_pt)
 %            l = l +1;
 %         end
 %     end
-%     x1=382;
-%     x2=535;
-%     pico_DA=signal_c(x1:x2,:)-ones(length(x1:x2),1)* signal_c(x1,:);
-%     y1=signal_c(x1,n);
-%     y2=signal_c(x2,n);
-%     m=(y2-y1)/(x2-x1);
-%     alfa=atan(m);
-%     R=[cos(alfa) -sin(alfa);sin(alfa) cos(alfa)];
-%     aux=[(1:size(pico_DA,1))' pico_DA(:,n)]*R;
-%     pico_DA(:,n)=aux(:,2);
-%     plot(pico_DA(:,n)); hold on
-%     title(num2str(n))
-%     ylim([-0.005 0.005])
-% %     waitforbuttonpress
-% end
-% 
+    
+    x1=400;
+    x2=500;
+    pico_DA=signal_c(x1:x2,:)-ones(length(x1:x2),1)* signal_c(x1,:);
+    y1=signal_c(x1,n);
+    y2=signal_c(x2,n);
+    m=(y2-y1)/(x2-x1);
+    alfa=atan(m);
+    R=[cos(alfa) -sin(alfa);sin(alfa) cos(alfa)];
+    aux=[(1:size(pico_DA,1))' pico_DA(:,n)]*R;
+    pico_DA(:,n)=aux(:,2);
+    plot(pico_DA(:,n)); hold on
+    title('Picos');
+%     waitforbuttonpress
+end
+
