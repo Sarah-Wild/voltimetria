@@ -71,46 +71,61 @@ DATA{nr,8} = interpol(DATA(nr,:));
 plot(DATA{nr,8}(:,50:150:600));
 title('interpolated curves');
 
-%% Interpolar (Delfi/Sarah)
-
-SDATA=DATA{nr,8};
-
-DATA0=SDATA(:,(50:100));
-DATA0m=mode(DATA0,2); %moda de 0nmol
-
-DATA1=SDATA(:,(200:250));
-DATA1m=mode(DATA1,2); %moda de 100nmol
-
-DATA2=SDATA(:,(350:400));
-DATA2m=mode(DATA2,2); %moda de 200nmol
-
-DATAf=SDATA(:,(530:580));
-DATAfm=mode(DATAf,2); %moda de 300nmol
-
-
-
-% xq=0:0.5:1250;
+% %% Interpolar (Delfi/Sarah)
 % 
-% fx = interp1(DATA0m,xq);
+% SDATA=DATA{nr,8};
 % 
-% fd= diff(fx,2);
-% inflec_pt = solve(fd == 0);
-% double(inflec_pt)
+% DATA0=SDATA(:,(50:100));
+% DATA0m=mode(DATA0,2); %moda de 0nmol
+% 
+% DATA1=SDATA(:,(200:250));
+% DATA1m=mode(DATA1,2); %moda de 100nmol
+% 
+% DATA2=SDATA(:,(350:400));
+% DATA2m=mode(DATA2,2); %moda de 200nmol
+% 
+% DATAf=SDATA(:,(530:580));
+% DATAfm=mode(DATAf,2); %moda de 300nmol
+% 
+% 
+% 
+% % xq=0:0.5:1250;
+% % 
+% % fx = interp1(DATA0m,xq);
+% % 
+% % fd= diff(fx,2);
+% % inflec_pt = solve(fd == 0);
+% % double(inflec_pt)
 
 
 %% 
-% Calculate Differential and find puntos de flexión (x1 y x2)
+% Calculate Differential and find puntos de inflexión (x1 y x2)
 % after that rotate
-% signal_c sería DATA(nr,8)
 
 signal_c=DATA{nr,8};
 
-signal_c_dif = diff(signal_c);
+    %signal_c_dif = diff(signal_c);
        % von allen Sweeps Zeiten von 400 bis 600 wird der erste Betrag (von
        % Zeit 400) abgezogen ~nullen und vergleichen
-%pico_DA=signal_c(x1:x2,:)-ones(length(x1:x2),1)* signal_c(x1,:);
+    %pico_DA=signal_c(x1:x2,:)-ones(length(x1:x2),1)* signal_c(x1,:);
 
+for i=70:130
+    curva0=mean(signal_c(:,i),2);
+end    
+
+for i=230:280
+    curva1=mean(signal_c(:,i),2);
+end
+
+for i=350:400
+    curva2=mean(signal_c(:,i),2);
+end
+
+for i=540:600
+    curva3=mean(signal_c(:,i),2);
+end    
 figure;
+
 for n=50:100:600
     
 %     l = 1;
@@ -121,8 +136,8 @@ for n=50:100:600
 %         end
 %     end
     
-    x1=390;
-    x2=540;
+    x1=410;                 %%%Primer punto de inflexion
+    x2=490;                 %%%Segundo punto de inflexion
     pico_DA=signal_c(x1:x2,:)-ones(length(x1:x2),1)* signal_c(x1,:);
     y1=signal_c(x1,n);
     y2=signal_c(x2,n);
