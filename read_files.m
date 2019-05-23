@@ -11,37 +11,37 @@ function [DATA] = read_files()
 
 % COLUMN 1 of DATA: SELECT FILE NAME
 
-% i = 1;
-% fin = 0;
-% while fin == 0
-%     file = uigetfile('*.txt');
-%     if isequal(file,0)
-%        disp('User selected Cancel.');                 % VERSION 1
-%        fin = 1;                                       % comment or uncomment
-%     else
-%        DATA{i,1} = file;
-%        i = i+1;
-%     end
-% end
+i = 1;
+fin = 0;
+while fin == 0
+    file = uigetfile('*.txt');
+    if isequal(file,0)
+       disp('User selected Cancel.');                 % VERSION 1
+       fin = 1;                                       % comment or uncomment
+    else
+       DATA{i,1} = file;
+       i = i+1;
+    end
+end
 
 
- DATA = {...                                          % VERSION 2
-          %'nr3_1micromol.-0,25paso_v1.txt'; ...      % no sirve
-          %'nr3_1micromol.-0,25paso_v2.txt'; ...      % no sirve
-          'nr4_1micromol.-0,25paso_v1.txt'; ...
-          %'nr4_1micromol.-0,25paso_v2.txt'; ...      % no sirve
-          'nr4_1micromol.-0,25paso_v3.txt'; ...
-          'nr4_1micromol.-0,25paso_v4.txt'; ...
-          %'nr6_1micromol.-0,25paso.txt'; ...         % no sirve
-          'nr7_1micromol.-0,25paso_v1.txt'; ...
-          'nr7_1micromol.-0,25paso_v2.txt'; ...
-         'nr12_1micromol.-0,25paso_v1.txt'; ...
-          'nr12_1micromol.-0,25paso_v2.txt'; ...
-          'nr13_1micromol.-0,25paso_v1.txt'; ...
-          'nr13_1micromol.-0,25paso_v2.txt';
-          'nr15_1micromol.-0,25paso_v1.txt';
-          'nr15_1micromol.-0,25paso_v2.txt'
-    };
+%  DATA = {...                                          % VERSION 2
+%           %'nr3_1micromol.-0,25paso_v1.txt'; ...      % no sirve
+%           %'nr3_1micromol.-0,25paso_v2.txt'; ...      % no sirve
+%           'nr4_1micromol.-0,25paso_v1.txt'; ...
+%           %'nr4_1micromol.-0,25paso_v2.txt'; ...      % no sirve
+%           'nr4_1micromol.-0,25paso_v3.txt'; ...
+%           'nr4_1micromol.-0,25paso_v4.txt'; ...
+%           %'nr6_1micromol.-0,25paso.txt'; ...         % no sirve
+%           'nr7_1micromol.-0,25paso_v1.txt'; ...
+%           'nr7_1micromol.-0,25paso_v2.txt'; ...
+%          'nr12_1micromol.-0,25paso_v1.txt'; ...
+%           'nr12_1micromol.-0,25paso_v2.txt'; ...
+%           'nr13_1micromol.-0,25paso_v1.txt'; ...
+%           'nr13_1micromol.-0,25paso_v2.txt';
+%           'nr15_1micromol.-0,25paso_v1.txt';
+%           'nr15_1micromol.-0,25paso_v2.txt'
+%     };
 
     for nr = 1:size(DATA,1); % running through each file
 % COLUMN 2 of DATA: ORIGINAL FILE

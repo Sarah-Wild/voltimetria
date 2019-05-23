@@ -95,7 +95,7 @@ end
 
 CURVAS=[curva0,curva1,curva2,curva3];
 
-figure('Name',DATA{nr,1});
+figure('Name',DATA{nr,1;
 
 for i=1:4
     
